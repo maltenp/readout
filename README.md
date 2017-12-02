@@ -14,11 +14,12 @@ readout.py .txt (;) ~##,####
 
 Options:
 -m : Reads under assumtion its a matrix
+
 -ra2b : Read from unique string a to (unique string) b in file --- (NOT WORKING YET)
 
-Filenames are found with .'s in them \t\t\t\t\t\t\t.DAT
+Filenames are found with .'s in them
 
-Delimiter (if other than one or multiple space(s)) is specifed by ()'s, etc:\t(\t)
+Delimiter (if other than one or multiple space(s)) is specifed by ()'s,
 
-To ignore lines with special characters,  use ~x,y\t\t\t\t\tetc:\t~!,#
+To ignore lines with special characters,  use ~x,y
 
