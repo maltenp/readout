@@ -16,7 +16,9 @@ Options:
 -m : Reads under assumtion its a matrix
 -ra2b : Read from unique string a to (unique string) b in file --- (NOT WORKING YET)
 
-Filenames are found with .'s in them,                                   etc:     .DAT
-Delimiter (if other than one or multiple space(s)) is specifed by ()'s, etc:     (\t)
-To ignore lines with special characters,  use ~x,y                      etc:     ~!,#
+Filenames are found with .'s in them \t\t\t\t\t\t\t.DAT
+
+Delimiter (if other than one or multiple space(s)) is specifed by ()'s, etc:\t(\t)
+
+To ignore lines with special characters,  use ~x,y\t\t\t\t\tetc:\t~!,#
 
