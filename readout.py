@@ -4,8 +4,8 @@ import os
 import mymenu
 import sys
 def write_to_mat(d,fn="data"):
+''' Writes writes from a list of dicts to .mat file'''
 	j=0
-	#print(fn)
 	fnp=fn
 	while(find_file(fnp+".mat")):
 		fnp=fn+str(j)
@@ -16,7 +16,7 @@ def write_to_mat(d,fn="data"):
 	for i in d:
 		k='d'+str(j)
 		u=fn+k#+".mat"
-		sio.savemat(u,{u:i}) #append doesnt work ?? S:S:S
+		sio.savemat(u,{u:i}) #append doesnt work ?? S:S:S now there is one struct in each .mat, ugly but works
 		j+=1
 		print("saved to %s.mat"%u)
 	return
@@ -27,11 +27,16 @@ def isDigit(x):
     except ValueError:
         return False
 def test(m,temp):
+'''Ugly function, but it handles the header,
+ if there is a little bit of junk the user will be asked to manually sort it
+ otherwise the matrix will be saved to matrix instead'''
 	temp=list(i.lstrip() for i in temp)
 	temp=(list(i.replace('\n','') for i in temp))
 	if np.shape(m)[1]!=len(temp):
-		print("Header length does not match the number of columns in the matrix:")
+		print("Header length does not match the number of columns in the matrix.")
+		print("HEADER:")
 		print(temp)
+		print("FIRST ROW IN MATRIX:")
 		print(m[0])
 		if abs(np.shape(m)[1]-len(temp))<8:
 			for i in range(len(temp)):
@@ -51,6 +56,7 @@ def test(m,temp):
 	m=np.array(m)
 	return [m,temp]
 def read_file(fn,de,ign):
+'''Quite a ugly function. It reads from a file and saves any matricies it finds in a list of dicts.'''
 	f=open(fn,'r')
 	print("\nReading from %s" %fn)
 	m=[]
@@ -60,9 +66,6 @@ def read_file(fn,de,ign):
 		if not any(i in line for i in ign):
 			if ' ' in de: row=line.split()
 			else: row=line.split()
-			
-			#row=list(i.rstrip() for i in row)
-			#row=list(i.replace('\n','') for i in row)
 			if all(isDigit(i) for i in row) and len(row)>0:
 				row=list(map(float,row))
 				#print(row)
@@ -128,11 +131,11 @@ def gotomenu(opt=["-opt"]):
 		if "-" in i:
 			menu.option(i)
 		elif "." in i:
-			fn=i  
+			fn=i  #file name is found by finding the input with a dot
 		elif "~" in i:
-			ign=i[1:].split(',')
+			ign=i[1:].split(',') #vector with strings to ignore is found with ~
 		elif "(" in i and ")" in i:
-			de=i[1:-1]
+			de=i[1:-1] #deliimter is found wihtin the parentesies
 			
 	if not any(menu.boolopt):
 		print("Wrong or no input arguments given")
