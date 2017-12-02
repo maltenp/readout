@@ -4,7 +4,7 @@ import os
 import mymenu
 import sys
 def write_to_mat(d,fn="data"):
-''' Writes writes from a list of dicts to .mat file'''
+	''' Writes writes from a list of dicts to .mat file'''
 	j=0
 	fnp=fn
 	while(find_file(fnp+".mat")):
@@ -27,9 +27,9 @@ def isDigit(x):
     except ValueError:
         return False
 def test(m,temp):
-'''Ugly function, but it handles the header,
- if there is a little bit of junk the user will be asked to manually sort it
- otherwise the matrix will be saved to matrix instead'''
+	'''Ugly function, but it handles the header,
+	if there is a little bit of junk the user will be asked to manually sort it
+	otherwise the matrix will be saved to matrix instead'''
 	temp=list(i.lstrip() for i in temp)
 	temp=(list(i.replace('\n','') for i in temp))
 	if np.shape(m)[1]!=len(temp):
@@ -56,7 +56,7 @@ def test(m,temp):
 	m=np.array(m)
 	return [m,temp]
 def read_file(fn,de,ign):
-'''Quite a ugly function. It reads from a file and saves any matricies it finds in a list of dicts.'''
+	'''Quite a ugly function. It reads from a file and saves any matricies it finds in a list of dicts.'''
 	f=open(fn,'r')
 	print("\nReading from %s" %fn)
 	m=[]
