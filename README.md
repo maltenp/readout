@@ -13,6 +13,7 @@ readout.py .txt (;) ~##,####
 
 
 Options:
+
 -m : Reads under assumtion its a matrix
 
 -ra2b : Read from unique string a to (unique string) b in file --- (NOT WORKING YET)
