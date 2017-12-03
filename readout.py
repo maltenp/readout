@@ -4,7 +4,7 @@ import os
 import mymenu
 import sys
 def write_to_mat(d,fn="data"):
-	''' Writes writes from a list of dicts to .mat file'''
+	''' Writes from a list of dicts to .mat file'''
 	j=0
 	fnp=fn
 	while(find_file(fnp+".mat")):
@@ -34,14 +34,15 @@ def test(m,temp):
 	temp=(list(i.replace('\n','') for i in temp))
 	if np.shape(m)[1]!=len(temp):
 		print("Header length does not match the number of columns in the matrix.")
-		print("HEADER:")
-		print(temp)
-		print("FIRST ROW IN MATRIX:")
-		print(m[0])
+		print("Length of header: %i, no of rows: %i"%(len(temp), np.shape(m)[1]))
 		if abs(np.shape(m)[1]-len(temp))<8:
+			print("HEADER:")
+			print(temp)
+			print("FIRST ROW IN MATRIX:")
+			print(m[0])
 			for i in range(len(temp)):
 				print("[%i] : %s" %(i,temp[i]))
-			inp=input("How do you want to sort the the header?(etc: '3,0,2,1,..')\n")
+			inp=input("How do you want to sort the the header?(etc: '3,0,2,1,..')\n ")
 			try:
 				inpv=list(map(int,inp.split(",")))
 				new=[]
@@ -64,8 +65,8 @@ def read_file(fn,de,ign):
 	header=[]
 	for line in f:
 		if not any(i in line for i in ign):
-			if ' ' in de: row=line.split()
-			else: row=line.split()
+			row=[i for i in line.split(de) if i is not '']
+			print(row)
 			if all(isDigit(i) for i in row) and len(row)>0:
 				row=list(map(float,row))
 				#print(row)
@@ -76,8 +77,8 @@ def read_file(fn,de,ign):
 				header.append(temp)
 				m=[]
 			else:
-				if ' ' in de: temp=line.split()
-				else: temp=line.split()
+				temp=[i for i in line.split(de) if i is not '']
+
 	if len(m)>0:
 		try:
 			[m,temp]=test(m,temp)
@@ -93,7 +94,12 @@ def read_file(fn,de,ign):
 			d.append(dict((header[j][i],data[j][:,i]) for i in range(len(header[j])) ))
 		else:
 			d.append(dict((header[j][i],data[j]) for i in range(len(header[j])) ))
-	return d
+	if len(d)>0:
+		return d
+	else:
+		print("ERROR: No data found, try changing the settings")
+		exit()
+	return
 def find_file(end1=""):
 	'''Finds all files in directory with a specified ending, returns a list of filenames'''
 	print('Looking for file ending with: %s in current folder.'%end1)
