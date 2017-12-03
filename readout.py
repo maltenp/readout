@@ -66,7 +66,7 @@ def read_file(fn,de,ign):
 	for line in f:
 		if not any(i in line for i in ign):
 			row=[i for i in line.split(de) if i is not '']
-			print(row)
+			#print(row)
 			if all(isDigit(i) for i in row) and len(row)>0:
 				row=list(map(float,row))
 				#print(row)
