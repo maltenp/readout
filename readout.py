@@ -53,6 +53,7 @@ def test(m,temp):
 				print("Wrong input, saved as 'NoHeader'")
 				temp=["NoHeader"]
 		else:
+			print("NO HEADER, saving as 'NoHeader'")
 			temp=["NoHeader"]
 	m=np.array(m)
 	return [m,temp]
