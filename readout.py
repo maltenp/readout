@@ -3,6 +3,7 @@ import numpy as np
 import os
 import mymenu
 import sys
+import re
 def write_to_mat(d,fn="data"):
 	''' Writes from a list of dicts to .mat file'''
 	j=0
@@ -30,7 +31,7 @@ def test(m,temp):
 	'''Ugly function, but it handles the header,
 	if there is a little bit of junk the user will be asked to manually sort it
 	otherwise the matrix will be saved to matrix instead'''
-	temp=list(i.lstrip() for i in temp)
+	#temp=list(i.lstrip() for i in temp)
 	temp=(list(i.replace('\n','') for i in temp))
 	if np.shape(m)[1]!=len(temp):
 		print("Header length does not match the number of columns in the matrix.")
@@ -66,8 +67,8 @@ def read_file(fn,de,ign):
 	header=[]
 	for line in f:
 		if not any(i in line for i in ign):
-			row=[i for i in line.split(de) if i is not '']
-			#print(row)
+			row=[i for i in re.split(de,line) if i is not '' and i is not '\n']
+			row=[i.lstrip() for i in row]
 			if all(isDigit(i) for i in row) and len(row)>0:
 				row=list(map(float,row))
 				#print(row)
@@ -78,7 +79,7 @@ def read_file(fn,de,ign):
 				header.append(temp)
 				m=[]
 			else:
-				temp=[i for i in line.split(de) if i is not '']
+				temp=[i for i in re.split(de,line) if i is not '' and i is not '\n']
 
 	if len(m)>0:
 		try:
@@ -92,9 +93,9 @@ def read_file(fn,de,ign):
 	d=[]
 	for j in range(len(data)):
 		if len(header[j][:])==np.shape(data[j])[1]:
-			d.append(dict((header[j][i],data[j][:,i]) for i in range(len(header[j])) ))
+			d.append(dict((header[j][i][0:header[j][i].find(' ')],data[j][:,i]) for i in range(len(header[j])) ))
 		else:
-			d.append(dict((header[j][i],data[j]) for i in range(len(header[j])) ))
+			d.append(dict((header[j][i][0:header[j][i].find(' ')],data[j]) for i in range(len(header[j])) ))
 	if len(d)>0:
 		return d
 	else:
