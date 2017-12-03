@@ -155,7 +155,7 @@ def gotomenu(opt=["-opt"]):
 	try:
 		len(de)
 	except:
-		de=' '
+		de=None
 	try:
 		len(ign)
 	except:
