@@ -93,15 +93,20 @@ def read_file(fn,de,ign):
 	d=[]
 	for j in range(len(data)):
 		if len(header[j][:])==np.shape(data[j])[1]:
-			d.append(dict((header[j][i][0:header[j][i].find(' ')],data[j][:,i]) for i in range(len(header[j])) ))
+			d.append(dict((header[j][i][0:find_in_str(header[j][i])],data[j][:,i]) for i in range(len(header[j])) ))
 		else:
-			d.append(dict((header[j][i][0:header[j][i].find(' ')],data[j]) for i in range(len(header[j])) ))
+			d.append(dict((header[j][i][0:find_in_str(header[j][i])],data[j]) for i in range(len(header[j])) ))
 	if len(d)>0:
 		return d
 	else:
 		print("ERROR: No data found, try changing the settings")
 		exit()
 	return
+def find_in_str(str1):
+	if str1.find(' ')==-1:
+		return None
+	else:
+		return str1.find(' ')
 def find_file(end1=""):
 	'''Finds all files in directory with a specified ending, returns a list of filenames'''
 	print('Looking for file ending with: %s in current folder.'%end1)
