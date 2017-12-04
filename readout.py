@@ -103,7 +103,12 @@ def read_file(fn,de,ign):
 		exit()
 	return
 def find_in_str(str1):
-	if str1.find(' ')==-1:
+	#To shorten the name
+	#special case where the units are given inside a parentesies
+	if str1.find('(')!=-1:
+		return str1.find('(')
+	#special
+	elif str1.find(' ')==-1:
 		return None
 	else:
 		return str1.find(' ')
