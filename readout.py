@@ -7,19 +7,20 @@ import re
 def write_to_mat(d,fn="data"):
 	''' Writes from a list of dicts to .mat file'''
 	j=0
-	fnp=fn
-	while(find_file(fnp+".mat")):
-		fnp=fn+str(j)
-		j+=1;
-	fn=fnp
+	# fnp=fn
+	# while(find_file(fnp+".mat")):
+		# fnp=fn+str(j)
+		# j+=1;
+	fn=fnp+'.mat'
 	j=0;
+	print(type(d))
 	print("SAVING..")
 	for i in d:
-		k='d'+str(j)
-		u=fn+k#+".mat"
-		sio.savemat(u,{u:i}) #append doesnt work ?? S:S:S now there is one struct in each .mat, ugly but works
-		j+=1
-		print("saved to %s.mat"%u)
+		sio.savemat(fn,{fn[0:-4]:i})
+	# with open(fn,'ab') as f:
+		# for i in d:
+			# sio.savemat(f, i)   # append#j+=1
+	print("saved to %s"%fn)
 	return
 def isDigit(x):
     try:
@@ -91,11 +92,23 @@ def read_file(fn,de,ign):
 		header.append(temp)
 		m=[]
 	d=[]
+	dic={}
+	c=0
 	for j in range(len(data)):
 		if len(header[j][:])==np.shape(data[j])[1]:
-			d.append(dict((header[j][i][0:find_in_str(header[j][i])],data[j][:,i]) for i in range(len(header[j])) ))
+			for i in header[j]:
+				try:
+					i=i[0:12]
+				except IndexError:
+					pass
+				i=re.sub(r'\W+', '', i)
+				print(i)
+				dic.update({i:data[j]})
+				c+=1
+			d.append(dic)
 		else:
-			d.append(dict((header[j][i][0:find_in_str(header[j][i])],data[j]) for i in range(len(header[j])) ))
+			d.append(dic.update(({i:data[j]} for i in header[j])))
+	print(len(d))
 	if len(d)>0:
 		return d
 	else:
@@ -106,6 +119,7 @@ def find_in_str(str1):
 	#To shorten the name
 	#special case where the units are given inside a parentesies
 	if str1.find('(')!=-1:
+		str1=str1.replace(' ','')
 		return str1.find('(')
 	#special
 	elif str1.find(' ')==-1:
